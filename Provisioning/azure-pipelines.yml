@@ -1,0 +1,38 @@
+name: Bicep-StorageAccount-PrivateEndpoint
+trigger:
+- main
+
+variables:
+  resourceGroupName: 'ebensRes'
+  location: 'westeurope'
+  azureSubscription: 'Pipline2'
+  resourcePrefix: 'ebs'
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+- stage: deploy
+  jobs:
+  - deployment: biceptoAzure
+    displayName: 'Deploy bicep to Azure'
+    workspace:
+      clean: all 
+    environment: 'QA'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+          - task: AzureCLI@2
+            displayName: 'deploy bicep template'
+            inputs:
+              azureSubscription: $(azureSubscription) 
+              scriptType: 'pscore'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az group create --name $(ResourceGroupName) --location $(location)
+                az deployment group create  `
+                --template-file $(Build.SourcesDirectory)/arm.bicep `
+                --parameters $(Build.SourcesDirectory)/arm.parameters.json `
+                --resource-group $(ResourceGroupName)
