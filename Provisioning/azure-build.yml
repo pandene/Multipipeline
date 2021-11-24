@@ -1,0 +1,45 @@
+name: 1.0.$(Year:yy)$(DayOfYear)$(Rev:.r)
+
+trigger:
+  batch: false
+  branches:
+    include:
+      - master
+stages: 
+- stage: Build_and_Test
+ displayName: 'Build and Test'
+  jobs:
+  - job:
+    pool:  
+      vmimage: 'windows-2019'
+    displayName: 'Build and Test'
+    steps: 
+             - task: DotNetCoreCLI@2
+              displayName: 'dotnet restore'
+              inputs:
+                command: 'restore'
+                projects: '**/*.sln'
+                feedsToUse: 'select'
+
+            - task: DotNetCoreCLI@2
+              displayName: 'dotnet build'
+              inputs:
+                command: build
+                projects: '**/*.sln'
+                arguments:  ' --no-restore --configuration Release /p:Version=$(Build.BuildNumber)'
+
+            - task: DotNetCoreCLI@2
+              displayName: 'publish'
+              inputs:
+                command: 'publish'
+                publishWebProjects: true
+                projects: '**/*.sln'
+                arguments: ' --output $(Build.ArtifactStagingDirectory) --no-build --no-restore --configuration Release'
+                zipAfterPublish: True
+
+            # this code takes all the files in $(Build.ArtifactStagingDirectory) and uploads them as an artifact of your build.
+            - task: PublishPipelineArtifact@1
+              inputs:
+                targetPath: '$(Build.ArtifactStagingDirectory)' 
+                artifactName: 'ebsSiteTester'
+                 
