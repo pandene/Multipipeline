@@ -63,11 +63,18 @@ stages:
                 downloadType: 'single'
                 artifactName: 'e'
                 downloadPath: '$(System.ArtifactsDirectory)'
+            
+            
+            - task: CopyFiles@2
+              inputs:
+                SourceFolder: '$(System.ArtifactsDirectory)'
+                Contents: '**'
+                TargetFolder: '$(System.DefaultWorkingDirectory)'
 
             - task: ExtractFiles@1
               displayName: 'extracting dir $(Build.ArtifactStagingDirectory)'
               inputs:
-                archiveFilePatterns: '$(Build.ArtifactStagingDirectory)/e/*.zip'
+                archiveFilePatterns: '$(System.DefaultWorkingDirectory)/e/*.zip'
                 destinationFolder: '$(System.DefaultWorkingDirectory)/source'
                 cleanDestinationFolder: true
                 overwriteExistingFiles: false
