@@ -14,18 +14,18 @@ stages:
       vmimage: 'windows-2019'
     displayName: 'Build and Test'
     steps: 
-            # - task: DotNetCoreCLI@2
-            #   displayName: 'dotnet restore'
-            #   inputs:
-            #     command: 'restore'
-            #     projects: '**/web.sln'
-            #     feedsToUse: 'select'
+            - task: DotNetCoreCLI@2
+              displayName: 'dotnet restore'
+              inputs:
+                command: 'restore'
+                projects: '**/Web.csproj'
+                feedsToUse: 'select'
 
             - task: DotNetCoreCLI@2
               displayName: 'dotnet build'
               inputs:
                 command: build
-                projects: '**/web.csproj'
+                projects: '**/Web.csproj'
                 arguments:  ' --no-restore --configuration Release /p:Version=$(Build.BuildNumber)'
 
             - task: DotNetCoreCLI@2
