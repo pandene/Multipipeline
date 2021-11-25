@@ -65,7 +65,7 @@ stages:
 
             - task: ExtractFiles@1
               inputs:
-                archiveFilePatterns: '$(Build.ArtifactStagingDirectory)/*.zip'
+                archiveFilePatterns: '$(Build.ArtifactStagingDirectory)/ebsSiteTester/*.zip'
                 destinationFolder: '$(System.DefaultWorkingDirectory)/source'
                 cleanDestinationFolder: true
                 overwriteExistingFiles: false
