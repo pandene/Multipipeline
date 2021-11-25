@@ -41,7 +41,7 @@ stages:
               displayName: 'staging dir $(Build.ArtifactStagingDirectory)'
               inputs:
                 targetPath: '$(Build.ArtifactStagingDirectory)' 
-                artifactName: 'ebsSiteTester'
+                artifactName: 'e'
                  
 - stage: QA 
   displayName: 'QA'
@@ -60,13 +60,13 @@ stages:
               inputs:
                 buildType: 'current'
                 downloadType: 'single'
-                artifactName: 'ebsSiteTester'
+                artifactName: 'e'
                 downloadPath: '$(System.ArtifactsDirectory)'
 
             - task: ExtractFiles@1
               displayName: 'extracting dir $(Build.ArtifactStagingDirectory)'
               inputs:
-                archiveFilePatterns: '$(Build.ArtifactStagingDirectory)/ebsSiteTester/Web.zip'
+                archiveFilePatterns: '$(Build.ArtifactStagingDirectory)/e/Web.zip'
                 destinationFolder: '$(System.DefaultWorkingDirectory)/source'
                 cleanDestinationFolder: true
                 overwriteExistingFiles: false
