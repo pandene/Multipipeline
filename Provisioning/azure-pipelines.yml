@@ -1,6 +1,6 @@
 name: Bicep-StorageAccount-PrivateEndpoint
 trigger:
-- main
+- master
 
 variables:
   resourceGroupName: 'ebensRes'
@@ -33,6 +33,6 @@ stages:
               inlineScript: |
                 az group create --name $(ResourceGroupName) --location $(location)
                 az deployment group create  `
-                --template-file $(Build.SourcesDirectory)/provisioning/arm.bicep `
-                --parameters $(Build.SourcesDirectory)/provisioning/arm.parameters.json `
+                --template-file $(Build.SourcesDirectory)/Provisioning/arm.bicep `
+                --parameters $(Build.SourcesDirectory)/Provisioning/arm.parameters.json `
                 --resource-group $(ResourceGroupName)
