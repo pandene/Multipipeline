@@ -51,8 +51,6 @@ stages:
       vmimage: 'windows-2019'
     displayName: 'QA'
     environment: 'QA'
-    variables:
-     - group: 'QA'
     strategy:
      runOnce:
         deploy:
@@ -85,4 +83,3 @@ stages:
                 package: '$(System.DefaultWorkingDirectory)/source/'
                 deploymentMethod: 'auto'
 
-                
