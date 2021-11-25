@@ -64,6 +64,7 @@ stages:
                 downloadPath: '$(System.ArtifactsDirectory)'
 
             - task: ExtractFiles@1
+              displayName: 'extracting dir $(Build.ArtifactStagingDirectory)'
               inputs:
                 archiveFilePatterns: '$(Build.ArtifactStagingDirectory)/ebsSiteTester/*.zip'
                 destinationFolder: '$(System.DefaultWorkingDirectory)/source'
