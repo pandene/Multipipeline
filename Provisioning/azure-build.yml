@@ -84,3 +84,5 @@ stages:
                 appName: 'cf-portal-api-app-qa'
                 package: '$(System.DefaultWorkingDirectory)/source/'
                 deploymentMethod: 'auto'
+
+                
