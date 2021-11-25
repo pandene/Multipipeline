@@ -37,8 +37,50 @@ stages:
                 zipAfterPublish: True
 
             # this code takes all the files in $(Build.ArtifactStagingDirectory) and uploads them as an artifact of your build.
-            # - task: PublishPipelineArtifact@1
-            #   inputs:
-            #     targetPath: '$(Build.ArtifactStagingDirectory)' 
-            #     artifactName: 'ebsSiteTester'
+            - task: PublishPipelineArtifact@1
+              inputs:
+                targetPath: '$(Build.ArtifactStagingDirectory)' 
+                artifactName: 'ebsSiteTester'
                  
+- stage: QA 
+  displayName: 'QA'
+  condition: succeeded() # and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))  
+  jobs:
+  - deployment: 
+    pool:  
+      vmimage: 'windows-2019'
+    displayName: 'QA'
+    environment: 'QA'
+    variables:
+     - group: 'QA'
+    strategy:
+     runOnce:
+        deploy:
+           steps:             
+            - task: DownloadBuildArtifacts@0
+              inputs:
+                buildType: 'current'
+                downloadType: 'single'
+                artifactName: 'ebsSiteTester'
+                downloadPath: '$(System.ArtifactsDirectory)'
+
+            - task: ExtractFiles@1
+              inputs:
+                archiveFilePatterns: '$(Build.ArtifactStagingDirectory)/ebsSiteTester/*.zip'
+                destinationFolder: '$(System.DefaultWorkingDirectory)/source'
+                cleanDestinationFolder: true
+                overwriteExistingFiles: false
+ 
+            # - task: FileTransform@1
+            #   inputs:
+            #     folderPath: '$(System.DefaultWorkingDirectory)/source/'
+            #     fileType: 'json'
+            #     targetFiles: 'appsettings.json'
+                
+            - task: AzureWebApp@1
+              inputs:
+                azureSubscription: 'Pipline2'
+                appType: 'webApp'
+                appName: 'cf-portal-api-app-qa'
+                package: '$(System.DefaultWorkingDirectory)/source/'
+                deploymentMethod: 'auto'
