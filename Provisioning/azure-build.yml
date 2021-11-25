@@ -18,14 +18,14 @@ stages:
               displayName: 'dotnet restore'
               inputs:
                 command: 'restore'
-                projects: '**/*.sln'
+                projects: '**/web.sln'
                 feedsToUse: 'select'
 
             - task: DotNetCoreCLI@2
               displayName: 'dotnet build'
               inputs:
                 command: build
-                projects: '**/*.sln'
+                projects: '**/web.csproj'
                 arguments:  ' --no-restore --configuration Release /p:Version=$(Build.BuildNumber)'
 
             - task: DotNetCoreCLI@2
@@ -33,7 +33,6 @@ stages:
               inputs:
                 command: 'publish'
                 publishWebProjects: true
-                projects: '**/web.csproj'
                 arguments: ' --output $(Build.ArtifactStagingDirectory) --no-build --no-restore --configuration Release'
                 zipAfterPublish: True
 
