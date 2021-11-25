@@ -1,6 +1,6 @@
 name: Bicep-StorageAccount-PrivateEndpoint
 trigger:
-- master
+- main
 
 variables:
   resourceGroupName: 'ebensRes'

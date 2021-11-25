@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web.csproj", "{ABAE91F0-E96B-46D4-A648-97BC0749646A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "Web.csproj", "{ABAE91F0-E96B-46D4-A648-97BC0749646A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "..\WebApi\WebApi.csproj", "{B52C22DB-D4FB-4B80-8702-DADEA18D8B3E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebShared", "..\WebShared\WebShared.csproj", "{AA8A38E7-33CD-4111-830E-CA43730F9C8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebShared", "..\WebShared\WebShared.csproj", "{AA8A38E7-33CD-4111-830E-CA43730F9C8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +17,6 @@ Global
 		{ABAE91F0-E96B-46D4-A648-97BC0749646A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABAE91F0-E96B-46D4-A648-97BC0749646A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABAE91F0-E96B-46D4-A648-97BC0749646A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B52C22DB-D4FB-4B80-8702-DADEA18D8B3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B52C22DB-D4FB-4B80-8702-DADEA18D8B3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B52C22DB-D4FB-4B80-8702-DADEA18D8B3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B52C22DB-D4FB-4B80-8702-DADEA18D8B3E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AA8A38E7-33CD-4111-830E-CA43730F9C8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AA8A38E7-33CD-4111-830E-CA43730F9C8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA8A38E7-33CD-4111-830E-CA43730F9C8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
