@@ -14,12 +14,12 @@ stages:
       vmimage: 'windows-2019'
     displayName: 'Build and Test'
     steps: 
-            - task: DotNetCoreCLI@2
-              displayName: 'dotnet restore'
-              inputs:
-                command: 'restore'
-                projects: '**/web.sln'
-                feedsToUse: 'select'
+            # - task: DotNetCoreCLI@2
+            #   displayName: 'dotnet restore'
+            #   inputs:
+            #     command: 'restore'
+            #     projects: '**/web.sln'
+            #     feedsToUse: 'select'
 
             - task: DotNetCoreCLI@2
               displayName: 'dotnet build'
