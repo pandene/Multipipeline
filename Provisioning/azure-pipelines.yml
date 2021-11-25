@@ -33,6 +33,6 @@ stages:
               inlineScript: |
                 az group create --name $(ResourceGroupName) --location $(location)
                 az deployment group create  `
-                --template-file $(Build.SourcesDirectory)/arm.bicep `
-                --parameters $(Build.SourcesDirectory)/arm.parameters.json `
+                --template-file $(Build.SourcesDirectory)/provisioning/arm.bicep `
+                --parameters $(Build.SourcesDirectory)/provisioning/arm.parameters.json `
                 --resource-group $(ResourceGroupName)
