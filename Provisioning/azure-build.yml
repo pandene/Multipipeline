@@ -57,6 +57,7 @@ stages:
         deploy:
            steps:             
             - task: DownloadBuildArtifacts@0
+              displayName: 'download to $(Build.ArtifactDirectory)'
               inputs:
                 buildType: 'current'
                 downloadType: 'single'
