@@ -31,7 +31,7 @@ stages:
               scriptType: 'pscore'
               scriptLocation: 'inlineScript'
               inlineScript: |
-                az group create --name $(ResourceGroupName) --location $(location)
+                az group create --name eben-web --location $(location)
                 az deployment group create  `
                 --resource-group eben-web `
                 --template-file $(Build.SourcesDirectory)/Provisioning/arm.bicep `
@@ -57,7 +57,7 @@ stages:
               scriptType: 'pscore'
               scriptLocation: 'inlineScript'
               inlineScript: |
-                az group create --name $(ResourceGroupName) --location $(location)
+                az group create --name eben-api --location $(location)
                 az deployment group create `
                 --resource-group eben-api `
                 --template-file $(Build.SourcesDirectory)/Provisioning/arm.bicep `
