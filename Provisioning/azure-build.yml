@@ -125,7 +125,7 @@ stages:
               inputs:
                 azureSubscription: 'Pipline2'
                 appType: 'webApp'
-                appName: 'cf-portal-e'
+                appName: 'cf-portal-e-app-qa'
                 package: '$(System.DefaultWorkingDirectory)/source/'
                 deploymentMethod: 'auto'
 
@@ -175,7 +175,7 @@ stages:
               inputs:
                 azureSubscription: 'Pipline2'
                 appType: 'webApp'
-                appName: 'cf-portal-api-e'
+                appName: 'cf-portal-api-e-app-qa'
                 package: '$(System.DefaultWorkingDirectory)/source/'
                 deploymentMethod: 'auto'
 
