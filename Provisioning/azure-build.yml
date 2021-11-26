@@ -18,14 +18,14 @@ stages:
               displayName: 'dotnet restore'
               inputs:
                 command: 'restore'
-                projects: '**/WebApi.csproj'
+                projects: 'WebApi/WebApi.csproj'
                 feedsToUse: 'select'
 
             - task: DotNetCoreCLI@2
               displayName: 'dotnet build'
               inputs:
                 command: build
-                projects: '**/WebApi.csproj'
+                projects: 'WebApi/WebApi.csproj'
                 arguments:  ' --no-restore --configuration Release'
 
             - task: DotNetCoreCLI@2
@@ -54,21 +54,21 @@ stages:
               displayName: 'dotnet restore'
               inputs:
                 command: 'restore'
-                projects: '**/WebApi.csproj'
+                projects: 'WebApi/WebApi.csproj'
                 feedsToUse: 'select'
 
             - task: DotNetCoreCLI@2
               displayName: 'dotnet build'
               inputs:
                 command: build
-                projects: '**/WebApi.csproj'
+                projects: 'WebApi/WebApi.csproj'
                 arguments:  ' --no-restore --configuration Release'
 
             - task: DotNetCoreCLI@2
               displayName: 'publish'
               inputs:
                 command: 'publish'
-                projects: '**/WebApi.csproj'
+                projects: 'WebApi/WebApi.csproj'
                 publishWebProjects: true
                 arguments: ' --output $(Build.ArtifactStagingDirectory) --configuration Release'
                 zipAfterPublish: True
