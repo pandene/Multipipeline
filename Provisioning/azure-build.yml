@@ -65,11 +65,11 @@ stages:
                 downloadPath: '$(System.ArtifactsDirectory)'
             
             
-            - task: CopyFiles@2
-              inputs:
-                SourceFolder: '$(System.ArtifactsDirectory)'
-                Contents: '**'
-                TargetFolder: '$(System.DefaultWorkingDirectory)'
+            # - task: CopyFiles@2
+            #   inputs:
+            #     SourceFolder: '$(System.ArtifactsDirectory)'
+            #     Contents: '**'
+            #     TargetFolder: '$(System.DefaultWorkingDirectory)'
 
             - task: ExtractFiles@1
               displayName: 'extracting dir $(Build.ArtifactStagingDirectory)'
