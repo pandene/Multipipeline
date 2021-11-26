@@ -25,7 +25,7 @@ stages:
           steps:
           - checkout: self
           - task: AzureCLI@2
-            displayName: 'deploy bicep template'
+            displayName: 'deploy web template'
             inputs:
               azureSubscription: $(azureSubscription) 
               scriptType: 'pscore'
@@ -33,11 +33,11 @@ stages:
               inlineScript: |
                 az group create --name $(ResourceGroupName) --location $(location)
                 az deployment group create  `
-                --resource-group eben-web
+                --resource-group eben-web``
                 --template-file $(Build.SourcesDirectory)/Provisioning/arm.bicep `
                 --parameters rgLocation='West Europe'`
                 --parameters env='QA'`
-                --parameters appName='cf-portal-e'`
+                --parameters appName='cf-portal-e'
 - stage: deployapi
   jobs:
   - deployment: apitoAzure
@@ -51,17 +51,17 @@ stages:
           steps:
           - checkout: self
           - task: AzureCLI@2
-            displayName: 'deploy bicep template'
+            displayName: 'deploy api template'
             inputs:
               azureSubscription: $(azureSubscription) 
               scriptType: 'pscore'
               scriptLocation: 'inlineScript'
               inlineScript: |
                 az group create --name $(ResourceGroupName) --location $(location)
-                az deployment group create  `
-                --resource-group eben-api
+                az deployment group create `
+                --resource-group eben-api``
                 --template-file $(Build.SourcesDirectory)/Provisioning/arm.bicep `
                 --parameters rgLocation='West Europe'`
                 --parameters env='QA'`
-                --parameters appName='cf-portal-api-e'`
+                --parameters appName='cf-portal-api-e'
 
