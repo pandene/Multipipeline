@@ -9,10 +9,10 @@ param rgLocation string
 param env string
 
 @allowed([
-  'cf-portal'
-  'cf-portal-api'
+  'cf-portal-e'
+  'cf-portal-api-e'
 ])
-param  appName string = 'cf-portal'
+param  appName string = 'cf-portal-e'
 
 var webAppName_var = '${appName}-app-${env}'
 var servicePlanName_var = '${appName}-servicePlan-${env}'

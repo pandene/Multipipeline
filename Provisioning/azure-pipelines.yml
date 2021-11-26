@@ -1,6 +1,6 @@
 name: Bicep-StorageAccount-PrivateEndpoint
 trigger:
-- main
+- master
 
 variables:
   resourceGroupName: 'ebensRes'
@@ -14,8 +14,8 @@ pool:
 stages:
 - stage: deploy
   jobs:
-  - deployment: biceptoAzure
-    displayName: 'Deploy bicep to Azure'
+  - deployment: webtoAzure
+    displayName: 'Deploy web to Azure'
     workspace:
       clean: all 
     environment: 'QA'
@@ -34,5 +34,36 @@ stages:
                 az group create --name $(ResourceGroupName) --location $(location)
                 az deployment group create  `
                 --template-file $(Build.SourcesDirectory)/Provisioning/arm.bicep `
-                --parameters $(Build.SourcesDirectory)/Provisioning/arm.parameters.json `
-                --resource-group $(ResourceGroupName)
+                # --parameters $(Build.SourcesDirectory)/Provisioning/arm.parameters.json `
+                --parameters rgLocation='West Europe'`
+                --parameters env='QA'`
+                --parameters appName='cf-portal-e'`
+                --resource-group eben-web
+- stage: deployapi
+  jobs:
+  - deployment: apitoAzure
+    displayName: 'Deploy api to Azure'
+    workspace:
+      clean: all 
+    environment: 'QA'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+          - task: AzureCLI@2
+            displayName: 'deploy bicep template'
+            inputs:
+              azureSubscription: $(azureSubscription) 
+              scriptType: 'pscore'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az group create --name $(ResourceGroupName) --location $(location)
+                az deployment group create  `
+                --template-file $(Build.SourcesDirectory)/Provisioning/arm.bicep `
+                # --parameters $(Build.SourcesDirectory)/Provisioning/arm.parameters.json `
+                --parameters rgLocation='West Europe'`
+                --parameters env='QA'`
+                --parameters appName='cf-portal-api-e'`
+                --resource-group eben-api
+

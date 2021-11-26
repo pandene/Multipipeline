@@ -6,7 +6,7 @@ trigger:
     include:
       - master
 stages: 
-- stage: Build_and_Test
+- stage: Build_and_Test web
   displayName: 'Build and Test'
   jobs:
   - job:
@@ -41,16 +41,52 @@ stages:
               displayName: 'staging dir $(Build.ArtifactStagingDirectory)'
               inputs:
                 targetPath: '$(Build.ArtifactStagingDirectory)' 
-                artifactName: 'e'
+                artifactName: 'web'
+- stage: Build_and_Test api
+  displayName: 'Build and Test'
+  jobs:
+  - job:
+    pool:  
+      vmimage: 'windows-2019'
+    displayName: 'Build and Test'
+    steps: 
+            - task: DotNetCoreCLI@2
+              displayName: 'dotnet restore'
+              inputs:
+                command: 'restore'
+                projects: '**/WebApi.csproj'
+                feedsToUse: 'select'
+
+            - task: DotNetCoreCLI@2
+              displayName: 'dotnet build'
+              inputs:
+                command: build
+                projects: '**/WebApi.csproj'
+                arguments:  ' --no-restore --configuration Release'
+
+            - task: DotNetCoreCLI@2
+              displayName: 'publish'
+              inputs:
+                command: 'publish'
+                publishWebProjects: true
+                arguments: ' --output $(Build.ArtifactStagingDirectory) --configuration Release'
+                zipAfterPublish: True
+
+            # this code takes all the files in $(Build.ArtifactStagingDirectory) and uploads them as an artifact of your build.
+            - task: PublishBuildArtifacts@1
+              displayName: 'staging dir $(Build.ArtifactStagingDirectory)'
+              inputs:
+                targetPath: '$(Build.ArtifactStagingDirectory)' 
+                artifactName: 'api'
                  
-- stage: QA 
-  displayName: 'QA'
+- stage: QA Web
+  displayName: 'QA Web'
   condition: succeeded() # and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))  
   jobs:
   - deployment: 
     pool:  
       vmimage: 'windows-2019'
-    displayName: 'QA'
+    displayName: 'QA Web'
     environment: 'QA'
     strategy:
      runOnce:
@@ -61,7 +97,7 @@ stages:
               inputs:
                 buildType: 'current'
                 downloadType: 'single'
-                artifactName: 'e'
+                artifactName: 'web'
                 downloadPath: '$(System.ArtifactsDirectory)'
             
             
@@ -74,7 +110,7 @@ stages:
             - task: ExtractFiles@1
               displayName: 'extracting dir $(Build.ArtifactStagingDirectory)'
               inputs:
-                archiveFilePatterns: '$(Build.ArtifactStagingDirectory)/e/*.zip'
+                archiveFilePatterns: '$(Build.ArtifactStagingDirectory)/web/*.zip'
                 destinationFolder: '$(System.DefaultWorkingDirectory)/source'
                 cleanDestinationFolder: true
                 overwriteExistingFiles: false
@@ -89,7 +125,57 @@ stages:
               inputs:
                 azureSubscription: 'Pipline2'
                 appType: 'webApp'
-                appName: 'cf-portal-api-app-qa'
+                appName: 'cf-portal-e'
+                package: '$(System.DefaultWorkingDirectory)/source/'
+                deploymentMethod: 'auto'
+
+- stage: QA API
+  displayName: 'QA API'
+  condition: succeeded() # and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))  
+  jobs:
+  - deployment: 
+    pool:  
+      vmimage: 'windows-2019'
+    displayName: 'QA API'
+    environment: 'QA'
+    strategy:
+     runOnce:
+        deploy:
+           steps:             
+            - task: DownloadBuildArtifacts@0
+              displayName: 'download to $(System.ArtifactDirectory)'
+              inputs:
+                buildType: 'current'
+                downloadType: 'single'
+                artifactName: 'api'
+                downloadPath: '$(System.ArtifactsDirectory)'
+            
+            
+            # - task: CopyFiles@2
+            #   inputs:
+            #     SourceFolder: '$(System.ArtifactsDirectory)'
+            #     Contents: '**'
+            #     TargetFolder: '$(System.DefaultWorkingDirectory)'
+
+            - task: ExtractFiles@1
+              displayName: 'extracting dir $(Build.ArtifactStagingDirectory)'
+              inputs:
+                archiveFilePatterns: '$(Build.ArtifactStagingDirectory)/api/*.zip'
+                destinationFolder: '$(System.DefaultWorkingDirectory)/source'
+                cleanDestinationFolder: true
+                overwriteExistingFiles: false
+ 
+            # - task: FileTransform@1
+            #   inputs:
+            #     folderPath: '$(System.DefaultWorkingDirectory)/source/'
+            #     fileType: 'json'
+            #     targetFiles: 'appsettings.json'
+                
+            - task: AzureWebApp@1
+              inputs:
+                azureSubscription: 'Pipline2'
+                appType: 'webApp'
+                appName: 'cf-portal-api-e'
                 package: '$(System.DefaultWorkingDirectory)/source/'
                 deploymentMethod: 'auto'
 
