@@ -12,7 +12,7 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-- stage: deploy
+- stage: deployweb
   jobs:
   - deployment: webtoAzure
     displayName: 'Deploy web to Azure'
@@ -33,10 +33,10 @@ stages:
               inlineScript: |
                 az group create --name $(ResourceGroupName) --location $(location)
                 az deployment group create  `
-                --resource-group eben-web``
+                --resource-group eben-web `
                 --template-file $(Build.SourcesDirectory)/Provisioning/arm.bicep `
-                --parameters rgLocation='West Europe'`
-                --parameters env='QA'`
+                --parameters rgLocation='West Europe' `
+                --parameters env='QA' `
                 --parameters appName='cf-portal-e'
 - stage: deployapi
   jobs:
@@ -59,9 +59,9 @@ stages:
               inlineScript: |
                 az group create --name $(ResourceGroupName) --location $(location)
                 az deployment group create `
-                --resource-group eben-api``
+                --resource-group eben-api `
                 --template-file $(Build.SourcesDirectory)/Provisioning/arm.bicep `
-                --parameters rgLocation='West Europe'`
-                --parameters env='QA'`
+                --parameters rgLocation='West Europe' `
+                --parameters env='QA' `
                 --parameters appName='cf-portal-api-e'
 
