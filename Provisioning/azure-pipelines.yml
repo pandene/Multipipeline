@@ -34,7 +34,6 @@ stages:
                 az group create --name $(ResourceGroupName) --location $(location)
                 az deployment group create  `
                 --template-file $(Build.SourcesDirectory)/Provisioning/arm.bicep `
-                # --parameters $(Build.SourcesDirectory)/Provisioning/arm.parameters.json `
                 --parameters rgLocation='West Europe'`
                 --parameters env='QA'`
                 --parameters appName='cf-portal-e'`
@@ -61,7 +60,6 @@ stages:
                 az group create --name $(ResourceGroupName) --location $(location)
                 az deployment group create  `
                 --template-file $(Build.SourcesDirectory)/Provisioning/arm.bicep `
-                # --parameters $(Build.SourcesDirectory)/Provisioning/arm.parameters.json `
                 --parameters rgLocation='West Europe'`
                 --parameters env='QA'`
                 --parameters appName='cf-portal-api-e'`

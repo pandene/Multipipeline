@@ -6,7 +6,7 @@ trigger:
     include:
       - master
 stages: 
-- stage: Build_and_Test web
+- stage: Build_and_Test_web
   displayName: 'Build and Test'
   jobs:
   - job:
@@ -42,7 +42,7 @@ stages:
               inputs:
                 targetPath: '$(Build.ArtifactStagingDirectory)' 
                 artifactName: 'web'
-- stage: Build_and_Test api
+- stage: Build_and_Test_api
   displayName: 'Build and Test'
   jobs:
   - job:
@@ -79,14 +79,14 @@ stages:
                 targetPath: '$(Build.ArtifactStagingDirectory)' 
                 artifactName: 'api'
                  
-- stage: QA Web
+- stage: QA_Web
   displayName: 'QA Web'
   condition: succeeded() # and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))  
   jobs:
   - deployment: 
     pool:  
       vmimage: 'windows-2019'
-    displayName: 'QA Web'
+    displayName: 'QA deploy'
     environment: 'QA'
     strategy:
      runOnce:
@@ -129,14 +129,14 @@ stages:
                 package: '$(System.DefaultWorkingDirectory)/source/'
                 deploymentMethod: 'auto'
 
-- stage: QA API
-  displayName: 'QA API'
+- stage: QA_Api
+  displayName: 'QA Api'
   condition: succeeded() # and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))  
   jobs:
   - deployment: 
     pool:  
       vmimage: 'windows-2019'
-    displayName: 'QA API'
+    displayName: 'QA deploy'
     environment: 'QA'
     strategy:
      runOnce:
