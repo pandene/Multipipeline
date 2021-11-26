@@ -35,7 +35,7 @@ stages:
                 az deployment group create  `
                 --resource-group eben-web `
                 --template-file $(Build.SourcesDirectory)/Provisioning/arm.bicep `
-                --parameters rgLocation=West Europe `
+                --parameters rgLocation=WestEurope `
                 --parameters env=qa `
                 --parameters appName=cf-portal-e
 - stage: deployapi
