@@ -7,12 +7,12 @@ trigger:
       - master
 stages: 
 - stage: Build_and_Test_web
-  displayName: 'Build and Test'
+  displayName: 'Build and Test Web'
   jobs:
   - job:
     pool:  
       vmimage: 'windows-2019'
-    displayName: 'Build and Test'
+    displayName: 'Build and Test Web job'
     steps: 
             - task: DotNetCoreCLI@2
               displayName: 'dotnet restore'
@@ -43,12 +43,12 @@ stages:
                 targetPath: '$(Build.ArtifactStagingDirectory)' 
                 artifactName: 'web'
 - stage: Build_and_Test_api
-  displayName: 'Build and Test'
+  displayName: 'Build and Test Api'
   jobs:
   - job:
     pool:  
       vmimage: 'windows-2019'
-    displayName: 'Build and Test'
+    displayName: 'Build and Test Api job'
     steps: 
             - task: DotNetCoreCLI@2
               displayName: 'dotnet restore'
@@ -68,6 +68,7 @@ stages:
               displayName: 'publish'
               inputs:
                 command: 'publish'
+                projects: '**/WebApi.csproj'
                 publishWebProjects: true
                 arguments: ' --output $(Build.ArtifactStagingDirectory) --configuration Release'
                 zipAfterPublish: True
