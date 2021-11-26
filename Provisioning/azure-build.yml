@@ -25,7 +25,7 @@ stages:
               displayName: 'dotnet build'
               inputs:
                 command: build
-                projects: '**/WebApi.proj'
+                projects: '**/WebApi.csproj'
                 arguments:  ' --no-restore --configuration Release'
 
             - task: DotNetCoreCLI@2
