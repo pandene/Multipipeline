@@ -32,7 +32,7 @@ stages:
               displayName: 'publish'
               inputs:
                 command: 'publish'
-                projects: 'WebApi/WebApi.csproj'
+                projects: 'WebApi/WebApiXXX.csproj'
                 arguments: ' --output $(Build.ArtifactStagingDirectory) --configuration Release'
                 zipAfterPublish: True
 
