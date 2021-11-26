@@ -61,7 +61,7 @@ stages:
                 az deployment group create `
                 --resource-group eben-api `
                 --template-file $(Build.SourcesDirectory)/Provisioning/arm.bicep `
-                --parameters rgLocation='West Europe' `
-                --parameters env='QA' `
-                --parameters appName='cf-portal-api-e'
+                --parameters rgLocation=WestEurope `
+                --parameters env=qa `
+                --parameters appName=cf-portal-api-e
 
