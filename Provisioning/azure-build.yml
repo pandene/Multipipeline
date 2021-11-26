@@ -18,7 +18,7 @@ stages:
               displayName: 'dotnet restore'
               inputs:
                 command: 'restore'
-                projects: '**/Web.csproj'
+                projects: '**/*.sln'
                 feedsToUse: 'select'
 
             - task: DotNetCoreCLI@2
