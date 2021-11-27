@@ -5,14 +5,14 @@ trigger:
 pool:
   vmImage: ubuntu-latest
   
-resources:
-  pipelines:
-  - pipeline: drop
-    source: build
-    trigger:
-      branches:
-        include:
-        - master
+# resources:
+#   pipelines:
+#   - pipeline: drop
+#     source: build
+#     trigger:
+#       branches:
+#         include:
+#         - master
 
 variables:
   appName: 'cf-portal-api'
