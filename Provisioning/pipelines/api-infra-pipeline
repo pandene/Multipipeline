@@ -1,0 +1,38 @@
+trigger: none
+pr: none
+
+pool:
+  vmImage: ubuntu-latest
+  
+resources:
+  pipelines:
+  - pipeline: drop
+    source: build
+    trigger:
+      branches:
+        include:
+        - main
+
+variables:
+  appName: 'cf-portal-api'
+  location: 'westeurope'
+  locationUS: 'westus'
+  azureSubscription: 'CFPortal'
+
+
+stages:
+- template: ./deploy-stages.yaml
+  parameters:
+    connectionName: $(azureSubscription)
+    resourceGroup: cfportal-qa
+    env: QA
+    appName: $(appName)  
+
+- ${{ if eq(variables['Build.Reason'], 'Manual') }}:
+  - template: ./deploy-stages.yaml
+    parameters:
+      connectionName: $(azureSubscription)
+      resourceGroup: cfportal-prod
+      env: PROD
+      appName: $(appName)
+
