@@ -17,7 +17,7 @@ stages:
 - stage: ${{ format('{0}_Infrastructure', parameters.env) }}
   variables:
   - template: ${{ format('{0}-vars.yaml', parameters.env) }}
-  - group: ${{ format('{0}-vars', parameters.env) }}
+  - group: ${{ format('{0}-varsq', parameters.env) }}
   jobs:
   - deployment: Infrastructure
     displayName: 'Deploy infrastructure'
