@@ -12,8 +12,6 @@ parameters:
     - PROD
   - name: appName
     type: string
-  - name: functionAppName
-    type: string
 
 stages:
 - stage: ${{ format('{0}_Infrastructure', parameters.env) }}
