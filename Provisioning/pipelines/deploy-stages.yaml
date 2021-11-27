@@ -6,10 +6,10 @@ parameters:
   - name: env
     type: string
     values:
-    - QA
-    - QANEW
-    - TEMP
-    - PROD
+    - qa
+    - qanew
+    - temp
+    - prod
   - name: appName
     type: string
 
