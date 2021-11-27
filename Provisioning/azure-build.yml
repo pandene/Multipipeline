@@ -114,7 +114,7 @@ stages:
               inputs:
                 folderPath: '$(System.DefaultWorkingDirectory)/source/'
                 fileType: 'json'
-                targetFiles: 'appsettings.json'
+                targetFiles: 'appsettings1.json'
                 
             - task: AzureWebApp@1
               inputs:
