@@ -23,7 +23,7 @@ stages:
     displayName: 'Deploy infrastructure'
     workspace:
       clean: all 
-    environment: ${{ format('{0}-INFRASTRUCTURE', parameters.env) }}
+    environment: ${{ format('{0}', parameters.env) }}
     strategy:
       runOnce:
         deploy:
