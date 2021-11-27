@@ -1,0 +1,44 @@
+parameters:
+  - name: connectionName
+    type: string
+  - name: resourceGroup
+    type: string
+  - name: env
+    type: string
+    values:
+    - QA
+    - QANEW
+    - TEMP
+    - PROD
+  - name: appName
+    type: string
+  - name: functionAppName
+    type: string
+
+stages:
+- stage: ${{ format('{0}_Infrastructure', parameters.env) }}
+  variables:
+  - template: ${{ format('{0}-vars.yaml', parameters.env) }}
+  - group: ${{ format('{0}-vars', parameters.env) }}
+  jobs:
+  - deployment: Infrastructure
+    displayName: 'Deploy infrastructure'
+    workspace:
+      clean: all 
+    environment: ${{ format('{0}-INFRASTRUCTURE', parameters.env) }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureCLI@2
+            displayName: 'Deploy Bicep template'
+            inputs:
+              azureSubscription: ${{ parameters.connectionName }}
+              scriptType: pscore
+              scriptLocation: inlineScript
+              inlineScript: |
+                $outputs = az deployment group create `
+                --resource-group ${{ parameters.resourceGroup }} `
+                --template-file '$(PIPELINE.WORKSPACE)/drop/drop/provisioning/infrastructure/main.bicep' `
+                --parameters $(BicepParametersFile) `
+                --query properties.outputs | ConvertFrom-Json

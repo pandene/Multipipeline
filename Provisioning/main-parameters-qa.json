@@ -1,0 +1,41 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "WestUS2"
+        },
+        "env": {
+            "value": "qa"
+        },
+        "appServiceInstanceCount": {
+            "value": 3
+        },
+        "appServiceSku": {
+            "value": "P1V2"
+        },
+        "alertActionGroupId": {
+            "value": "/subscriptions/963a9c21-d780-4dfe-8aa1-9aa872112552/resourceGroups/ngs-reporting/providers/microsoft.insights/actionGroups/PROD - NGS - Notify"
+        },
+        "functionsAppSettings": {
+            "value": [
+                {
+                    "name": "SyncCashbackOffers",
+                    "value": "0 */5 * * * *"
+                }
+            ]
+        },
+        "primaryDatabaseSku": {
+            "value": "S2"
+        },
+        "databaseAdministratorLogin": {
+            "value": "cfdev"
+        },
+        "secondaryDatabaseSku": {
+            "value": "S1"
+        },
+        "secondaryDatabaseLocation": {
+            "value": "WestCentralUS"
+        }
+    }
+}
