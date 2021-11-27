@@ -102,13 +102,6 @@ stages:
                 artifactName: 'web'
                 downloadPath: '$(System.ArtifactsDirectory)'
             
-            
-            # - task: CopyFiles@2
-            #   inputs:
-            #     SourceFolder: '$(System.ArtifactsDirectory)'
-            #     Contents: '**'
-            #     TargetFolder: '$(System.DefaultWorkingDirectory)'
-
             - task: ExtractFiles@1
               displayName: 'extracting dir $(Build.ArtifactStagingDirectory)'
               inputs:
@@ -117,11 +110,11 @@ stages:
                 cleanDestinationFolder: true
                 overwriteExistingFiles: false
  
-            # - task: FileTransform@1
-            #   inputs:
-            #     folderPath: '$(System.DefaultWorkingDirectory)/source/'
-            #     fileType: 'json'
-            #     targetFiles: 'appsettings.json'
+            - task: FileTransform@1
+              inputs:
+                folderPath: '$(System.DefaultWorkingDirectory)/source/'
+                fileType: 'json'
+                targetFiles: 'appsettings.json'
                 
             - task: AzureWebApp@1
               inputs:
@@ -150,14 +143,6 @@ stages:
                 buildType: 'current'
                 downloadType: 'single'
                 artifactName: 'api'
-                downloadPath: '$(System.ArtifactsDirectory)'
-            
-            
-            # - task: CopyFiles@2
-            #   inputs:
-            #     SourceFolder: '$(System.ArtifactsDirectory)'
-            #     Contents: '**'
-            #     TargetFolder: '$(System.DefaultWorkingDirectory)'
 
             - task: ExtractFiles@1
               displayName: 'extracting dir $(Build.ArtifactStagingDirectory)'
@@ -167,11 +152,11 @@ stages:
                 cleanDestinationFolder: true
                 overwriteExistingFiles: false
  
-            # - task: FileTransform@1
-            #   inputs:
-            #     folderPath: '$(System.DefaultWorkingDirectory)/source/'
-            #     fileType: 'json'
-            #     targetFiles: 'appsettings.json'
+            - task: FileTransform@1
+              inputs:
+                folderPath: '$(System.DefaultWorkingDirectory)/source/'
+                fileType: 'json'
+                targetFiles: 'appsettings.json'
                 
             - task: AzureWebApp@1
               inputs:
