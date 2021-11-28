@@ -1,4 +1,4 @@
 variables:
   Location: WestEurope
   Subscription: 0f77f75e-9f6a-4fc9-bc29-d2c35f96af0f
-  BicepParametersFile: '$(PIPELINE.WORKSPACE)/drop/drop/provisioning/infrastructure/main.parameters-qa.json'
+  BicepParametersFile: '$(Build.SourcesDirectory)/provisioning/infrastructure/main.parameters-qa.json'

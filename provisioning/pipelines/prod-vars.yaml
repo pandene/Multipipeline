@@ -1,4 +1,4 @@
 variables:
   Location: WestUS
   Subscription: 963a9c21-d780-4dfe-8aa1-9aa872112552
-  BicepParametersFile: '$(PIPELINE.WORKSPACE)/drop/drop/provisioning/infrastructure/main.parameters-prod.json'
+  BicepParametersFile: '$(Build.SourcesDirectory)/provisioning/infrastructure/main.parameters-prod.json'
