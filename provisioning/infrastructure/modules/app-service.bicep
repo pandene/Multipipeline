@@ -8,17 +8,19 @@ param location string
 Zone redundancy should be considered for production workloads''')
 param instanceCount int
 
-@description('Managed identity that should be attached to the App Service. Incuded in the output of `user-assigned-identity.bicep`')
-param userManagedIdentity object
-
-@description('Uri of a Key Vault. It will be set as AppSettings. Included in the output of `key-vault.bicep` module.')
-param keyVaultUri string
-
 @description('Base for constructing resource names. Should be defined in main.bicep and passed into each module.')
 param resourceNameBase string
 
-@description('Id of Log Analytics Workspace that should be used by Application Insights defined in this template.')
-param logAnalyticsWorkspaceId string
+
+// @description('Managed identity that should be attached to the App Service. Incuded in the output of `user-assigned-identity.bicep`')
+// param userManagedIdentity object
+
+// @description('Uri of a Key Vault. It will be set as AppSettings. Included in the output of `key-vault.bicep` module.')
+// param keyVaultUri string
+
+
+// @description('Id of Log Analytics Workspace that should be used by Application Insights defined in this template.')
+// param logAnalyticsWorkspaceId string
 
 @allowed([
   'S1'
@@ -33,7 +35,7 @@ param logAnalyticsWorkspaceId string
 param appServicePlanSku string
 
 
-param serverFarmVer string ="
+
 var skuTier = appServicePlanSku == 'S1' ? 'Standard' : 'Premium'
 var appServicePlanName = 'plan-${resourceNameBase}'
 var appServicename = 'app-${resourceNameBase}'
@@ -54,19 +56,19 @@ var appServiceProperties = {
         name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
         value: insights.properties.InstrumentationKey
       }
-      {
-        name: 'ManagedIdentityId'
-        value: userManagedIdentity.clientId
-      }
-      {
-        name: 'KeyVaultUri'
-        value: keyVaultUri
-      }
+      // {
+      //   name: 'ManagedIdentityId'
+      //   value: userManagedIdentity.clientId
+      // }
+      // {
+      //   name: 'KeyVaultUri'
+      //   value: keyVaultUri
+      // }
     ]   
   }
   clientAffinityEnabled: false
   httpsOnly: true
-  keyVaultReferenceIdentity: userManagedIdentity.id
+  //keyVaultReferenceIdentity: userManagedIdentity.id
 }
 
 resource servicePlan 'Microsoft.Web/serverfarms@2021-02-01' = {
@@ -89,12 +91,12 @@ resource appService 'Microsoft.Web/sites@2021-02-01' = {
   tags: tags
   name: appServicename
   properties: appServiceProperties
-  identity: {
-    type: 'UserAssigned'
-    userAssignedIdentities: {
-      '${userManagedIdentity.id}': {}
-    }
-  }
+  // identity: {
+  //   type: 'UserAssigned'
+  //   userAssignedIdentities: {
+  //     '${userManagedIdentity.id}': {}
+  //   }
+  // }
 }
 
 resource deploymentSlotPre 'Microsoft.Web/sites/slots@2021-01-01' = {
@@ -105,12 +107,12 @@ resource deploymentSlotPre 'Microsoft.Web/sites/slots@2021-01-01' = {
   dependsOn: [
     appService
   ]
-  identity: {
-    type: 'UserAssigned'
-    userAssignedIdentities: {
-      '${userManagedIdentity.id}': {}
-    }
-  }
+  // identity: {
+  //   type: 'UserAssigned'
+  //   userAssignedIdentities: {
+  //     '${userManagedIdentity.id}': {}
+  //   }
+  // }
 }
 
 resource insights 'Microsoft.Insights/components@2020-02-02-preview' = {
@@ -118,10 +120,10 @@ resource insights 'Microsoft.Insights/components@2020-02-02-preview' = {
   location: location
   tags: tags
   kind: 'web'
-  properties: {
-    WorkspaceResourceId: logAnalyticsWorkspaceId
-    Application_Type: 'web'
-  }
+  // properties: {
+  //   WorkspaceResourceId: logAnalyticsWorkspaceId
+  //   Application_Type: 'web'
+  // }
 }
 
 @description('Resource ID of the App Service Plan')

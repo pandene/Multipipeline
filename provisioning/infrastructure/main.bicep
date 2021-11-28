@@ -52,42 +52,12 @@ var locationShort = {
   }
 }
 
-module 
+
 
 
 // Base for the resources names
 var resourceNameBase = '${projectName}-${env}-${locationShort[location].value}'
 
-module logAnalyticsWorkspace './modules/log-analytics.bicep' = {
-  name: 'logAnalyticsWorkspaceDeployment${deploymentUniqueId}' //This is deployment name and it should be unique with each template deployment.
-  params: {
-    location: location
-    tags: tags
-    resourceNameBase: resourceNameBase
-  }
-}
-
-module identityModuleAppService './modules/user-assigned-identity.bicep' = {
-  name: 'appServiceIdentityDeployment${deploymentUniqueId}'
-  params: {
-    location: location
-    tags: tags
-    resourceNameBase: resourceNameBase
-  }
-}
-
-module keyVaultModule './modules/key-vault.bicep' = {
-  name: 'keyVaultDeploy${deploymentUniqueId}'
-  params: {
-    location: location
-    tags: tags
-    resourceNameBase: resourceNameBase
-    applicationPrincipalIds: [
-      identityModuleAppService.outputs.identity.principalId
-    ]
-    azureAdGroupId: azureAdGroupId
-  }
-}
 
 module appServiceModule './modules/app-service.bicep' = {
   name: 'appServiceDeploy${deploymentUniqueId}'
@@ -95,22 +65,11 @@ module appServiceModule './modules/app-service.bicep' = {
     location: location
     tags: tags
     resourceNameBase: resourceNameBase
-    logAnalyticsWorkspaceId: logAnalyticsWorkspace.outputs.logAnalyticsWorkspaceId
-    userManagedIdentity: identityModuleAppService.outputs.identity
-    keyVaultUri: keyVaultModule.outputs.uri
+    // logAnalyticsWorkspaceId: logAnalyticsWorkspace.outputs.logAnalyticsWorkspaceId
+    // userManagedIdentity: identityModuleAppService.outputs.identity
+    // keyVaultUri: keyVaultModule.outputs.uri
     appServicePlanSku: appServiceSku
     instanceCount: appServiceInstanceCount    
   }
 }
 
-module appServiceAlerts './modules/app-service-alerts.bicep' = {
-  name: 'appServiceAlertsDeploy${deploymentUniqueId}'
-  params: {
-    location: location
-    env: env
-    projectName: projectName
-    servicePlanId: appServiceModule.outputs.servicePlanId
-    appInsightsId: appServiceModule.outputs.appInsightsId
-    alertActionGroupId: alertActionGroupId
-  }
-}
