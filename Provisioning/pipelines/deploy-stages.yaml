@@ -17,7 +17,7 @@ stages:
 - stage: ${{ format('{0}_Infrastructure', parameters.env) }}
   variables:
   - template: ${{ format('{0}-vars.yaml', parameters.env) }}
-  # - group: ${{ format('{0}-varsq', parameters.env) }}
+  # - group: ${{ format('{0}-vars', parameters.env) }}
   jobs:
   - deployment: Infrastructure
     displayName: 'Deploy infrastructure'
@@ -37,6 +37,6 @@ stages:
               inlineScript: |
                 $outputs = az deployment group create `
                 --resource-group ${{ parameters.resourceGroup }} `
-                --template-file '$(PIPELINE.WORKSPACE)/drop/drop/provisioning/infrastructure/main.bicep' `
+                --template-file '(Build.SourcesDirectory)/provisioning/infrastructure/main.bicep' `
                 --parameters $(BicepParametersFile) `
                 --query properties.outputs | ConvertFrom-Json
