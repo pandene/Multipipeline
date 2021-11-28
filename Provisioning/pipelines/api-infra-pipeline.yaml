@@ -1,6 +1,8 @@
-trigger: none
-pr: none
-
+trigger:
+  batch: false
+  branches:
+    include:
+      - main
 
 pool:
   vmImage: ubuntu-latest
