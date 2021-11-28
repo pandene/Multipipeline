@@ -36,7 +36,6 @@ stages:
               scriptType: pscore
               scriptLocation: inlineScript
               inlineScript: |
-                az group create --name ${{ parameters.resourceGroup }}  --location $(Location) `
                 $outputs = az deployment group create `
                 --resource-group ${{ parameters.resourceGroup }} `
                 --template-file '$(Build.SourcesDirectory)/provisioning/infrastructure/main.bicep' `
