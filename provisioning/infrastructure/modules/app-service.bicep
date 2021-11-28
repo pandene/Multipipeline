@@ -80,7 +80,6 @@ resource servicePlan 'Microsoft.Web/serverfarms@2021-02-01' = {
     tier: skuTier
     capacity: instanceCount
   }
-  kind: 'linux'
   properties: {
     reserved: true
   }
@@ -120,10 +119,10 @@ resource insights 'Microsoft.Insights/components@2020-02-02-preview' = {
   location: location
   tags: tags
   kind: 'web'
-  // properties: {
+  properties: {
   //   WorkspaceResourceId: logAnalyticsWorkspaceId
-  //   Application_Type: 'web'
-  // }
+    Application_Type: 'web'
+  }
 }
 
 @description('Resource ID of the App Service Plan')
