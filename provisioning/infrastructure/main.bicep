@@ -114,4 +114,3 @@ module appServiceAlerts './modules/app-service-alerts.bicep' = {
     alertActionGroupId: alertActionGroupId
   }
 }
-
