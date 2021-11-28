@@ -12,7 +12,7 @@ param env string
 
 @description('''Provide the name of the team that is responsible for the resources in this template.
 The name will be used in tags for easier identification of the owner of a resource''')
-param teamName string = 'Team-NGS'
+param teamName string = 'CFWeb'
 
 @description('Number of instances of the WebApp AppService.')
 param appServiceInstanceCount int
