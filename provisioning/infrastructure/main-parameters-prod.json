@@ -6,7 +6,7 @@
             "value": "WestUS2"
         },
         "env": {
-            "value": "qa"
+            "value": "prod"
         },
         "appServiceInstanceCount": {
             "value": 3
@@ -16,26 +16,7 @@
         },
         "alertActionGroupId": {
             "value": "/subscriptions/963a9c21-d780-4dfe-8aa1-9aa872112552/resourceGroups/ngs-reporting/providers/microsoft.insights/actionGroups/PROD - NGS - Notify"
-        },
-        "functionsAppSettings": {
-            "value": [
-                {
-                    "name": "SyncCashbackOffers",
-                    "value": "0 */5 * * * *"
-                }
-            ]
-        },
-        "primaryDatabaseSku": {
-            "value": "S2"
-        },
-        "databaseAdministratorLogin": {
-            "value": "cfdev"
-        },
-        "secondaryDatabaseSku": {
-            "value": "S1"
-        },
-        "secondaryDatabaseLocation": {
-            "value": "WestCentralUS"
         }
+        
     }
 }
