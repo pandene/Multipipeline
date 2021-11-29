@@ -35,7 +35,7 @@ stages:
               scriptLocation: inlineScript
               inlineScript: |
                 $outputs = az deployment group create `
-                --resource-group ${{ ResourceGroup }} `
+                --resource-group $(ResourceGroup) `
                 --template-file '$(Build.SourcesDirectory)/provisioning/infrastructure/main.bicep' `
                 --parameters $(BicepParametersFile) `
                 --query properties.outputs | ConvertFrom-Json
