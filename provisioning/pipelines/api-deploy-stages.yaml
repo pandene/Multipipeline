@@ -1,0 +1,89 @@
+parameters:
+  - name: connectionName
+    type: string
+  - name: env
+    type: string
+    values:
+    - qa
+    - qanew
+    - temp
+    - prod
+  - name: appName
+    type: string
+
+stages:
+- stage: ${{ format('{0}_Infrastructure', parameters.env) }}
+  variables:
+  - template: ${{ format('{0}-vars.yaml', parameters.env) }}
+  # - group: ${{ format('{0}-vars', parameters.env) }}
+  jobs:
+  - deployment: Infrastructure
+    displayName: 'Deploy infrastructure'
+    workspace:
+      clean: all 
+    environment: ${{ parameters.env }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+          - task: AzureCLI@2
+            displayName: 'Deploy Bicep template'
+            inputs:
+              azureSubscription: ${{ parameters.connectionName }}
+              scriptType: pscore
+              scriptLocation: inlineScript
+              inlineScript: |
+                $outputs = az deployment group create `
+                --resource-group $(ResourceGroup) `
+                --template-file ''$(PIPELINE.WORKSPACE)/drop/drop/provisioning/infrastructure/main.bicep' `
+                --parameters $(BicepParametersFile) `
+                --query properties.outputs | ConvertFrom-Json
+
+
+
+- stage: ${{ format('{0}_Pre', parameters.env) }}
+  dependsOn: ${{ format('{0}_Infrastructure', parameters.env) }}
+  condition: ne(parameters('parameters.env'), 'prod')
+  variables:
+  - template: ${{ format('{0}-vars.yaml', parameters.env) }}
+  jobs:
+  - deployment: PreSlot    
+    displayName: 'Deploy app to pre deployment slot'    
+    environment: ${{ format('{0}', parameters.env) }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureWebApp@1
+            inputs:
+              azureSubscription: ${{ parameters.connectionName }}
+              appName: ${{ parameters.appName }} 
+              ${{ if eq( variables['parameters.env'],'pre' ) }}:
+                deployToSlotOrASE: true
+                slotName: pre
+              package: '$(PIPELINE.WORKSPACE)/drop/drop/Api/WebApi.zip'
+
+
+- stage: ${{ parameters.env }}
+  dependsOn: ${{ format('{0}_Pre', parameters.env) }}
+  condition: eq(parameters('parameters.env'), 'prod')
+  variables:
+  - template: ${{ format('{0}-vars.yaml', parameters.env) }}
+  jobs:
+  - deployment: SwapSlots    
+    displayName: 'Swap pre slot with production slot'
+    environment: ${{ parameters.env }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureAppServiceManage@0
+            inputs:
+              azureSubscription: ${{ parameters.connectionName }}
+              action: 'Swap Slots'
+              resourceGroupName: ${{ parameters.resourceGroup }}
+              webAppName: ${{ parameters.appName }}
+              sourceSlot: pre
+              swapWithProduction: true
+
