@@ -19,8 +19,7 @@ param appServiceInstanceCount int
 
 @allowed([
   'S1'
-  'P1V2'
-  'P2V2'
+  'S3'
 ])
 param appServiceSku string
 
@@ -64,6 +63,7 @@ module appServiceModule './modules/app-service.bicep' = {
   params: {
     location: location
     tags: tags
+    env: env
     resourceNameBase: resourceNameBase
     // logAnalyticsWorkspaceId: logAnalyticsWorkspace.outputs.logAnalyticsWorkspaceId
     // userManagedIdentity: identityModuleAppService.outputs.identity

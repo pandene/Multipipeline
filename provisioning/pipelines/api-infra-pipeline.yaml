@@ -18,7 +18,6 @@ stages:
 - template: ./deploy-stages.yaml
   parameters:
     connectionName: $(azureSubscription)
-    resourceGroup: eben-api
     env: qa
     appName: $(appName)  
 
@@ -26,7 +25,6 @@ stages:
   - template: ./deploy-stages.yaml
     parameters:
       connectionName: $(azureSubscription)
-      resourceGroup: cfportal-prod
       env: prod
       appName: $(appName)
 

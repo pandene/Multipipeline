@@ -1,4 +1,5 @@
 variables:
+  ResourceGroup: res-prod
   Location: WestUS
   Subscription: 963a9c21-d780-4dfe-8aa1-9aa872112552
   BicepParametersFile: '$(Build.SourcesDirectory)/provisioning/infrastructure/main.parameters-prod.json'
