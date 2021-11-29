@@ -84,7 +84,7 @@ stages:
             inputs:
               azureSubscription: ${{ parameters.connectionName }}
               action: 'Swap Slots'
-              resourceGroupName: ${{ResourceGroup }}
+              resourceGroupName: $(ResourceGroup)
               webAppName: ${{ parameters.appName }}
               sourceSlot: pre
               swapWithProduction: true
