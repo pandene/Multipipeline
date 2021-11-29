@@ -11,10 +11,11 @@ parameters:
   - name: appName
     type: string
 
+variables:
+  - template: ${{ format('{0}-vars.yaml', parameters.env) }}
+  
 stages:
 - stage: ${{ format('{0}_Infrastructure', parameters.env) }}
-  variables:
-  - template: ${{ format('{0}-vars.yaml', parameters.env) }}
   # - group: ${{ format('{0}-vars', parameters.env) }}
   jobs:
   - deployment: Infrastructure
@@ -82,7 +83,7 @@ stages:
             inputs:
               azureSubscription: ${{ parameters.connectionName }}
               action: 'Swap Slots'
-              resourceGroupName: ${{ parameters.resourceGroup }}
+              resourceGroupName: ${{ ResourceGroup }}
               webAppName: ${{ parameters.appName }}
               sourceSlot: pre
               swapWithProduction: true
