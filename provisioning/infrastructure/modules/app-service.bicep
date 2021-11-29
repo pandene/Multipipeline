@@ -11,6 +11,10 @@ param instanceCount int
 @description('Base for constructing resource names. Should be defined in main.bicep and passed into each module.')
 param resourceNameBase string
 
+@description('Environment to use. Should be defined in main.bicep and passed into each module.')
+param env string
+
+
 
 // @description('Managed identity that should be attached to the App Service. Incuded in the output of `user-assigned-identity.bicep`')
 // param userManagedIdentity object
@@ -24,12 +28,7 @@ param resourceNameBase string
 
 @allowed([
   'S1'
-  'P1V2'
-  'P2V2'
-  'P3V2'
-  'P1V3'
-  'P2V3'
-  'P3V3'
+  'S3'
 ])
 @description('App Service Plan SKU. For production workloads Premium SKUs should be considered.')
 param appServicePlanSku string
@@ -98,7 +97,7 @@ resource appService 'Microsoft.Web/sites@2021-02-01' = {
   // }
 }
 
-resource deploymentSlotPre 'Microsoft.Web/sites/slots@2021-01-01' = {
+resource deploymentSlotPre 'Microsoft.Web/sites/slots@2021-01-01' = if (env == 'prod')  {
   location: location
   tags: tags
   name: '${appServicename}/pre'

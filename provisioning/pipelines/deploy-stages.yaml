@@ -1,8 +1,6 @@
 parameters:
   - name: connectionName
     type: string
-  - name: resourceGroup
-    type: string
   - name: env
     type: string
     values:
@@ -37,7 +35,7 @@ stages:
               scriptLocation: inlineScript
               inlineScript: |
                 $outputs = az deployment group create `
-                --resource-group ${{ parameters.resourceGroup }} `
+                --resource-group ${{ Location }} `
                 --template-file '$(Build.SourcesDirectory)/provisioning/infrastructure/main.bicep' `
                 --parameters $(BicepParametersFile) `
                 --query properties.outputs | ConvertFrom-Json

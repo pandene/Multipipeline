@@ -12,7 +12,7 @@
             "value": 3
         },
         "appServiceSku": {
-            "value": "P1V2"
+            "value": "S3"
         },
         "alertActionGroupId": {
             "value": "/subscriptions/963a9c21-d780-4dfe-8aa1-9aa872112552/resourceGroups/ngs-reporting/providers/microsoft.insights/actionGroups/PROD - NGS - Notify"

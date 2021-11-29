@@ -11,8 +11,6 @@ pool:
 
 variables:
   appName: 'cf-portal-api'
-  location: 'westeurope'
-  locationUS: 'westus'
   azureSubscription: 'Pipline2'
 
 
