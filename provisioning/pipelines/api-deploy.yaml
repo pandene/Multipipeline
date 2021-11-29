@@ -1,0 +1,42 @@
+trigger: none
+pr: none
+
+
+  
+resources:
+  pipelines:
+  - pipeline: drop
+    source: api-build
+    trigger:
+      branches:
+        include:
+        - master
+        - develop
+        - release*
+
+pool:
+  vmImage: ubuntu-latest
+  
+
+
+variables:
+  appName: 'cf-portal-api'
+  azureSubscription: 'Pipline2'
+
+
+stages:
+
+- template: ./deploy-stages.yaml
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))  
+  parameters:
+    connectionName: $(azureSubscription)
+    env: qa
+    appName: $(appName)  
+
+- ${{ if eq(variables['Build.Reason'], 'Manual') }}:
+  - template: ./deploy-stages.yaml
+    parameters:
+      connectionName: $(azureSubscription)
+      env: prod
+      appName: $(appName)
+
