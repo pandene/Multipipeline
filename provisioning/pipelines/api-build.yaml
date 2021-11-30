@@ -36,7 +36,7 @@ stages:
                 command: 'publish'
                 publishWebProjects: true
                 projects: 'WebApi/WebApi.csproj'
-                arguments: ' --output $(Build.ArtifactStagingDirectory)/Api --configuration Release --no-restore --no-build '
+                arguments: ' --output $(Build.ArtifactStagingDirectory) --configuration Release --no-restore --no-build '
                 zipAfterPublish: True
             - task: CopyFiles@2
               displayName: 'Copy provisioning resources to: $(Build.ArtifactStagingDirectory)'
