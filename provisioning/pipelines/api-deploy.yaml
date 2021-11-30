@@ -27,6 +27,7 @@ variables:
 stages:
 #-stage: qa
 #  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))  
+
 - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}:
   - template: ./api-deploy-stages.yaml
     parameters:
