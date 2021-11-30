@@ -52,45 +52,45 @@ stages:
 
 
 
-- stage: QA_Api
-  displayName: 'QA Api'
-  condition: succeeded() # and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))  
-  jobs:
-  - deployment: 
-    pool:  
-      vmimage: 'windows-2019'
-    displayName: 'QA deploy'
-    environment: 'QA'
-    strategy:
-     runOnce:
-        deploy:
-           steps:             
-            - task: DownloadBuildArtifacts@0
-              displayName: 'download to $(System.ArtifactDirectory)'
-              inputs:
-                buildType: 'current'
-                downloadType: 'single'
-                artifactName: 'api'
+# - stage: QA_Api
+#   displayName: 'QA Api'
+#   condition: succeeded() # and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))  
+#   jobs:
+#   - deployment: 
+#     pool:  
+#       vmimage: 'windows-2019'
+#     displayName: 'QA deploy'
+#     environment: 'QA'
+#     strategy:
+#      runOnce:
+#         deploy:
+#            steps:             
+#             - task: DownloadBuildArtifacts@0
+#               displayName: 'download to $(System.ArtifactDirectory)'
+#               inputs:
+#                 buildType: 'current'
+#                 downloadType: 'single'
+#                 artifactName: 'api'
 
-            - task: ExtractFiles@1
-              displayName: 'extracting dir $(Build.ArtifactStagingDirectory)'
-              inputs:
-                archiveFilePatterns: '$(Build.ArtifactStagingDirectory)/api/*.zip'
-                destinationFolder: '$(System.DefaultWorkingDirectory)/source'
-                cleanDestinationFolder: true
-                overwriteExistingFiles: false
+#             - task: ExtractFiles@1
+#               displayName: 'extracting dir $(Build.ArtifactStagingDirectory)'
+#               inputs:
+#                 archiveFilePatterns: '$(Build.ArtifactStagingDirectory)/api/*.zip'
+#                 destinationFolder: '$(System.DefaultWorkingDirectory)/source'
+#                 cleanDestinationFolder: true
+#                 overwriteExistingFiles: false
  
-            - task: FileTransform@1
-              inputs:
-                folderPath: '$(System.DefaultWorkingDirectory)/source/'
-                fileType: 'json'
-                targetFiles: 'appsettings.json'
+#             - task: FileTransform@1
+#               inputs:
+#                 folderPath: '$(System.DefaultWorkingDirectory)/source/'
+#                 fileType: 'json'
+#                 targetFiles: 'appsettings.json'
                 
-            - task: AzureWebApp@1
-              inputs:
-                azureSubscription: 'Pipline2'
-                appType: 'webApp'
-                appName: 'cf-portal-api-e-app-qa'
-                package: '$(System.DefaultWorkingDirectory)/source/'
-                deploymentMethod: 'auto'
+#             - task: AzureWebApp@1
+#               inputs:
+#                 azureSubscription: 'Pipline2'
+#                 appType: 'webApp'
+#                 appName: 'cf-portal-api-e-app-qa'
+#                 package: '$(System.DefaultWorkingDirectory)/source/'
+#                 deploymentMethod: 'auto'
 
