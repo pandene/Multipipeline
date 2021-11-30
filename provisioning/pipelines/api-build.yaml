@@ -51,7 +51,7 @@ stages:
               displayName: 'staging dir $(Build.ArtifactStagingDirectory)'
               inputs:
                 targetPath: '$(Build.ArtifactStagingDirectory)' 
-                artifactName: 'api-drop'
+                artifactName: 'api'
 
 
 
