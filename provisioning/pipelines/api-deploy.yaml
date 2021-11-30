@@ -5,7 +5,7 @@ pr: none
   
 resources:
   pipelines:
-  - pipeline: api
+  - pipeline: api-drop
     source: api-build
     trigger:
       branches:
