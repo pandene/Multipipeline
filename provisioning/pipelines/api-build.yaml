@@ -4,7 +4,7 @@ trigger:
   batch: false
   branches:
     include:
-      - main
+      - master
 stages: 
 - stage: Build_and_Test_web
   displayName: 'Build and Test Web'
