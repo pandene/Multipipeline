@@ -24,6 +24,7 @@ stages:
             - task: DotNetCoreCLI@2
               displayName: 'dotnet build'
               inputs:
+                version: 3.1.201
                 command: build
                 projects: 'WebApi/WebApi.csproj'
                 arguments:  ' --no-restore --configuration Release'
@@ -31,6 +32,7 @@ stages:
             - task: DotNetCoreCLI@2
               displayName: 'publish'
               inputs:
+                version: 3.1.201
                 command: 'publish'
                 publishWebProjects: true
                 projects: 'WebApi/WebApi.csproj'
