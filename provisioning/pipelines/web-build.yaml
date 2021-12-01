@@ -75,7 +75,7 @@ stages:
               inputs:
                 buildType: 'current'
                 downloadType: 'single'
-                artifactName: 'api'
+                artifactName: 'web'
                 downloadPath: '$(System.ArtifactsDirectory)'
 
             - task: ExtractFiles@1
@@ -96,7 +96,7 @@ stages:
               inputs:
                 azureSubscription: 'Pipline2'
                 appType: 'webApp'
-                appName: 'cf-portal-api-e-app-qa'
+                appName: 'cf-portal-web-e-app-qa'
                 package: '$(System.DefaultWorkingDirectory)/source/'
                 deploymentMethod: 'auto'
 
