@@ -76,6 +76,7 @@ stages:
                 buildType: 'current'
                 downloadType: 'single'
                 artifactName: 'api'
+                downloadPath: '$(System.ArtifactsDirectory)'
 
             - task: ExtractFiles@1
               displayName: 'extracting dir $(Build.ArtifactStagingDirectory)'
