@@ -1,0 +1,101 @@
+name: 1.0.$(Year:yy)$(DayOfYear)$(Rev:.r)
+
+trigger:
+  batch: false
+  branches:
+    include:
+      - master
+stages: 
+- stage: Build_and_Test_web
+  displayName: 'Build and Test Web'
+  jobs:
+  - job:
+    pool:  
+      vmimage: 'windows-2019'
+    displayName: 'Build and Test Web job'
+    steps: 
+            - task: DotNetCoreCLI@2
+              displayName: 'dotnet restore'
+              inputs:
+                version: 3.1.x
+                command: 'restore'
+                projects: '**/*.sln'
+                feedsToUse: 'select'
+
+            - task: DotNetCoreCLI@2
+              displayName: 'dotnet build'
+              inputs:
+                version: 3.1.x
+                command: build
+                projects: '**/*.sln'
+                arguments: ' --no-restore --configuration Release'
+
+            - task: DotNetCoreCLI@2
+              displayName: 'publish'
+              inputs:
+                version: 3.1.x
+                command: 'publish'
+                publishWebProjects: true
+                projects: 'WebApi/WebApi.csproj'
+                arguments: ' --output $(Build.ArtifactStagingDirectory) --configuration Release --no-restore --no-build '
+                zipAfterPublish: True
+            - task: CopyFiles@2
+              displayName: 'Copy provisioning resources to: $(Build.ArtifactStagingDirectory)'
+              inputs:
+                SourceFolder: provisioning/infrastructure
+                Contents: '**'
+                TargetFolder: '$(Build.ArtifactStagingDirectory)/provisioning/infrastructure'
+
+            # this code takes all the files in $(Build.ArtifactStagingDirectory) and uploads them as an artifact of your build.
+            - task: PublishBuildArtifacts@1
+              displayName: 'staging dir $(Build.ArtifactStagingDirectory)'
+              inputs:
+                targetPath: '$(Build.ArtifactStagingDirectory)' 
+                artifactName: 'web'
+
+
+
+- stage: Web_Api
+  displayName: 'Web Api'
+  condition: succeeded() # and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))  
+  jobs:
+  - deployment: 
+    pool:  
+      vmimage: 'windows-2019'
+    displayName: 'Web deploy'
+    environment: 'QA'
+    variables:
+     - group: 'QA'
+    strategy:
+     runOnce:
+        deploy:
+           steps:             
+            - task: DownloadBuildArtifacts@0
+              displayName: 'download to $(System.ArtifactDirectory)'
+              inputs:
+                buildType: 'current'
+                downloadType: 'single'
+                artifactName: 'api'
+
+            - task: ExtractFiles@1
+              displayName: 'extracting dir $(Build.ArtifactStagingDirectory)'
+              inputs:
+                archiveFilePatterns: '$(Build.ArtifactStagingDirectory)/web/*.zip'
+                destinationFolder: '$(System.DefaultWorkingDirectory)/source'
+                cleanDestinationFolder: true
+                overwriteExistingFiles: false
+ 
+            - task: FileTransform@1
+              inputs:
+                folderPath: '$(System.DefaultWorkingDirectory)/source/'
+                fileType: 'json'
+                targetFiles: 'appsettings.json'
+                
+            - task: AzureWebApp@1
+              inputs:
+                azureSubscription: 'Pipline2'
+                appType: 'webApp'
+                appName: 'cf-portal-api-e-app-qa'
+                package: '$(System.DefaultWorkingDirectory)/source/'
+                deploymentMethod: 'auto'
+
