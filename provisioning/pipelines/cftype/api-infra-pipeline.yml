@@ -33,6 +33,7 @@ stages:
 - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/OldStyle') }}:
   - template: ./infra-template.yml
     parameters:
+      location: $(location)
       resourceGroup: eo-qa
       connectionName: $(azureSubscription)
       env: qa
@@ -42,6 +43,7 @@ stages:
 - ${{ if eq(variables['Build.Reason'], 'refs/heads/OldStyle') }}:
   - template: ./infra-template.yml
     parameters:
+      location: $(location)
       resourceGroup: eo-prod
       connectionName: $(azureSubscription)
       env: prod
