@@ -46,8 +46,8 @@ stages:
                 az deployment group create `
                 --resource-group ${{ parameters.resourceGroup }} `
                 --template-file $(Build.SourcesDirectory)/provisioning/infrastructure/main.bicep `
-                --parameters location=${{ paramters.location }} `
+                --parameters location=${{ parameters.location }} `
                 --parameters env=${{ parameters.env }}) `
                 --parameters appName=${{ parameters.appName }} `
-                --parameters appServiceSku=${{ paramters.sku }} `
+                --parameters appServiceSku=${{ parameters.sku }} `
                 --parameters appServiceInstanceCount=${{ parameters.appServiceCount }}
