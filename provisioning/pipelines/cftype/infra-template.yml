@@ -26,7 +26,7 @@ stages:
 - stage: ${{ format('{0}_Infrastructure', parameters.env) }}
   jobs:
   - deployment: Infrastructure
-    displayName: 'Deploy Infrastructure'
+    displayName: ${{ format('{0}_Infrastructure', parameters.env) }}
     workspace:
       clean: all 
     environment: ${{ format('{0}', parameters.env) }}
