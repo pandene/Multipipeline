@@ -36,7 +36,7 @@ stages:
       location: $(location)
       resourceGroup: eo-qa
       connectionName: $(azureSubscription)
-      env: qa
+      env: 'qa'
       appName: $(appName)
       sku: S1  
       appServiceCount: 1
@@ -46,7 +46,7 @@ stages:
       location: $(location)
       resourceGroup: eo-prod
       connectionName: $(azureSubscription)
-      env: prod
+      env: 'prod'
       appName: $(appName)
       sku: S3
       appServiceCount: 3
