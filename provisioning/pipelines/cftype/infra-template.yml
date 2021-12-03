@@ -17,6 +17,7 @@ parameters:
   - name: sku
     type: string
   - name: appServiceCount
+    type: integer
 
 
 
