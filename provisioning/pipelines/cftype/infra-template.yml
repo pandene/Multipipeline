@@ -7,17 +7,17 @@ parameters:
     type: string
   - name: env
     type: string
-    # values:
-    # - qa
-    # - qanew
-    # - temp
-    # - prod
+    values:
+    - qa
+    - qanew
+    - temp
+    - prod
   - name: appName
     type: string
   - name: sku
     type: string
   - name: appServiceCount
-    type: string
+
     
 
 
@@ -47,7 +47,7 @@ stages:
                 --resource-group ${{parameters.ResourceGroup}} `
                 --template-file $(Build.SourcesDirectory)/provisioning/infrastructure/main.bicep `
                 --parameters location=$(location) `
-                --parameters env=$('parameters.env') `
-                --parameters appName=$('parameters.appName') `
-                --parameters appServiceSku=$('sku') `
-                --parameters appServiceInstanceCount=${{parameters.appServiceCount}}
+                --parameters env=$(parameters.env) `
+                --parameters appName=$(parameters.appName) `
+                --parameters appServiceSku=$(sku) `
+                --parameters appServiceInstanceCount=$(parameters.appServiceCount)
