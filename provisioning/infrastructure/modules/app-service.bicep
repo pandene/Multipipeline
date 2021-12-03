@@ -45,7 +45,7 @@ var appServiceProperties = {
   httpsOnly: true
   clientAffinityEnabled: false
   siteConfig: {
-    
+    windowsFxVersion:'DOTNETCORE|3.0'
     alwaysOn: true
     http20Enabled: true
     appSettings: [
