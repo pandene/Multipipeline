@@ -4,12 +4,12 @@
 ])
 param location string
 
-@allowed([
-  'qa'
-  'qanew'
-  'temp'
-  'prod'
-])
+// @allowed([
+//   'qa'
+//   'qanew'
+//   'temp'
+//   'prod'
+// ])
 param env string
 
 @description('''Provide the name of the team that is responsible for the resources in this template.
