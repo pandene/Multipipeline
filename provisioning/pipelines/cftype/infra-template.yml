@@ -42,12 +42,12 @@ stages:
               scriptType: 'pscore'
               scriptLocation: 'inlineScript'
               inlineScript: |
-                az group create --name ${{parameters.ResourceGroup}} --location ${{parameters.location}}
+                az group create --name ${{ parameters.ResourceGroup }} --location ${{ parameters.location }}
                 az deployment group create `
-                --resource-group ${{parameters.ResourceGroup}} `
+                --resource-group ${{ parameters.ResourceGroup }} `
                 --template-file $(Build.SourcesDirectory)/provisioning/infrastructure/main.bicep `
-                --parameters location=$(location) `
-                --parameters env=$(parameters.env) `
-                --parameters appName=$(parameters.appName) `
-                --parameters appServiceSku=$(sku) `
-                --parameters appServiceInstanceCount=$(parameters.appServiceCount)
+                --parameters location=${{ paramters.location }} `
+                --parameters env=${{ parameters.env }}) `
+                --parameters appName=${{ parameters.appName }} `
+                --parameters appServiceSku=${{ paramters.sku }} `
+                --parameters appServiceInstanceCount=${{ parameters.appServiceCount }}
