@@ -7,11 +7,11 @@ parameters:
     type: string
   - name: env
     type: string
-    values:
-    - qa
-    - qanew
-    - temp
-    - prod
+    # values:
+    # - qa
+    # - qanew
+    # - temp
+    # - prod
   - name: appName
     type: string
   - name: sku
