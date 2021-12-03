@@ -17,7 +17,7 @@ parameters:
   - name: sku
     type: string
   - name: appServiceCount
-    type: int
+
 
 
 stages: 
