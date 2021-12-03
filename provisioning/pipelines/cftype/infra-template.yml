@@ -47,5 +47,5 @@ stages:
                 --parameters location=$(location) `
                 --parameters env=$('parameters.env') `
                 --parameters appName=$('parameters.appName') `
-                --parameters appServiceSku=$('sk'u) `
+                --parameters appServiceSku=$('sku') `
                 --parameters appServiceInstanceCount=$('appServiceCount')
