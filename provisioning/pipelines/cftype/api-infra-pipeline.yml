@@ -31,16 +31,18 @@ pool:
 
 stages:
 - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}:
-  - template: ./api-deploy-stages.yaml
+  - template: ./infra-template.yaml
     parameters:
       resourceGroup: eo-qa
       connectionName: $(azureSubscription)
       env: qa
-      appName: $(appName)  
+      appName: $(appName)
+      sku: s1  
 - ${{ if eq(variables['Build.Reason'], 'Manual') }}:
-  - template: ./api-deploy-stages.yaml
+  - template: ./infra-template.yaml
     parameters:
       resourceGroup: eo-prod
       connectionName: $(azureSubscription)
       env: prod
       appName: $(appName)
+      sku: s3

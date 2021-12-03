@@ -36,39 +36,31 @@ param appServicePlanSku string
 
 
 var skuTier = appServicePlanSku == 'S1' ? 'Standard' : 'Premium'
-var appServicePlanName = 'plan-${resourceNameBase}'
-var appServicename = 'app-${resourceNameBase}'
-var insightsName = 'appi-${resourceNameBase}'
+var appServicename = '${resourceNameBase}-${env}'
+var appServicePlanName = '${resourceNameBase}-servicePlan-${env}'
+var insightsName = '${resourceNameBase}-appInsights-${env}'
 
 var appServiceProperties = {
   serverFarmId: servicePlan.id
+  httpsOnly: true
+  clientAffinityEnabled: false
   siteConfig: {
-    linuxFxVersion: 'DOTNETCORE|5.0'
+    
     alwaysOn: true
     http20Enabled: true
     appSettings: [
       {
-        name: 'ASPNETCORE_HTTPS_PORT'
-        value: 443
-      }
-      {
         name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
         value: insights.properties.InstrumentationKey
       }
-      // {
-      //   name: 'ManagedIdentityId'
-      //   value: userManagedIdentity.clientId
-      // }
-      // {
-      //   name: 'KeyVaultUri'
-      //   value: keyVaultUri
-      // }
-    ]   
+      {
+        name: 'WEBSITE_RUN_FROM_PACKAGE'
+        value: 1
+      }              
+    ]
   }
-  clientAffinityEnabled: false
-  httpsOnly: true
-  //keyVaultReferenceIdentity: userManagedIdentity.id
 }
+  
 
 resource servicePlan 'Microsoft.Web/serverfarms@2021-02-01' = {
   location: location
@@ -84,17 +76,12 @@ resource servicePlan 'Microsoft.Web/serverfarms@2021-02-01' = {
   }
 }
 
-resource appService 'Microsoft.Web/sites@2021-02-01' = {
+resource appService 'Microsoft.Web/sites@2018-11-01' = {
   location: location
   tags: tags
   name: appServicename
   properties: appServiceProperties
-  // identity: {
-  //   type: 'UserAssigned'
-  //   userAssignedIdentities: {
-  //     '${userManagedIdentity.id}': {}
-  //   }
-  // }
+
 }
 
 resource deploymentSlotPre 'Microsoft.Web/sites/slots@2021-01-01' = if (env == 'prod')  {
