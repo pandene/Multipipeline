@@ -30,19 +30,21 @@ pool:
 
 
 stages:
-- ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}:
-  - template: ./infra-template.yaml
+- ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/OldStyle') }}:
+  - template: ./infra-template.yml
     parameters:
       resourceGroup: eo-qa
       connectionName: $(azureSubscription)
       env: qa
       appName: $(appName)
       sku: s1  
-- ${{ if eq(variables['Build.Reason'], 'Manual') }}:
-  - template: ./infra-template.yaml
+      appServiceCount: 1
+- ${{ if eq(variables['Build.Reason'], 'refs/heads/OldStyle') }}:
+  - template: ./infra-template.yml
     parameters:
       resourceGroup: eo-prod
       connectionName: $(azureSubscription)
       env: prod
       appName: $(appName)
       sku: s3
+      appServiceCount: s3
