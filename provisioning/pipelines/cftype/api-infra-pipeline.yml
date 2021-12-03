@@ -38,7 +38,7 @@ stages:
       connectionName: $(azureSubscription)
       env: qa
       appName: $(appName)
-      sku: s1  
+      sku: S1  
       appServiceCount: 1
 - ${{ if eq(variables['Build.Reason'], 'refs/heads/OldStyle') }}:
   - template: ./infra-template.yml
@@ -48,5 +48,5 @@ stages:
       connectionName: $(azureSubscription)
       env: prod
       appName: $(appName)
-      sku: s3
-      appServiceCount: s3
+      sku: S3
+      appServiceCount: 3
