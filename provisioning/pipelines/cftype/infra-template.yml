@@ -35,6 +35,7 @@ stages:
         deploy:
           steps:
           - checkout: self
+            path: provisioning
           - task: AzureCLI@2
             displayName: 'deploy Bicep template'
             inputs:
