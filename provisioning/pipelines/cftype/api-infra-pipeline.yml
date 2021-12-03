@@ -39,7 +39,7 @@ stages:
       env: qa
       appName: $(appName)
       sku: S1  
-      appServiceCount: '1'
+      appServiceCount: 1
 - ${{ if eq(variables['Build.Reason'], 'refs/heads/OldStyle') }}:
   - template: ./infra-template.yml
     parameters:
@@ -49,4 +49,4 @@ stages:
       env: prod
       appName: $(appName)
       sku: S3
-      appServiceCount: '3'
+      appServiceCount: 3

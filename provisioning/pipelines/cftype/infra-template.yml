@@ -50,4 +50,4 @@ stages:
                 --parameters env=$('parameters.env') `
                 --parameters appName=$('parameters.appName') `
                 --parameters appServiceSku=$('sku') `
-                --parameters appServiceInstanceCount=$('parameters.appServiceCount')
+                --parameters appServiceInstanceCount=${{parameters.appServiceCount}}
