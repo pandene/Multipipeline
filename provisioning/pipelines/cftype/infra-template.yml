@@ -1,0 +1,47 @@
+parameters:
+  - name: location
+    type: string
+  - name: connectionName
+    type: string
+  - name: resourceGroup
+    type: string
+  - name: env
+    type: string
+    values:
+    - qa
+    - qanew
+    - temp
+    - prod
+  - name: appName
+    type: string
+
+
+stages: 
+- stage: ${{ format('{0}_Infrastructure', parameters.env) }}
+  jobs:
+  - deployment: Infrastructure
+    displayName: 'Deploy Infrastructure'
+    workspace:
+      clean: all 
+    environment: ${{ format('{0}', parameters.env) }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+          - task: AzureCLI@2
+            displayName: 'deploy Bicep template'
+            inputs:
+              azureSubscription: ${{ parameters.connectionName }} 
+              scriptType: 'pscore'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az group create --name ${{parameters.ResourceGroup}} --location ${{parameters.location}}
+                az deployment group create `
+                --resource-group ${{parameters.ResourceGroup}} `
+                --template-file $(Build.SourcesDirectory)/provisioning/infrastructure/main.bicep `
+                --parameters location=$(location) `
+                --parameters env=$('parameters.env') `
+                --parameters appName=$(parameters.appName) `
+                --parameters appServiceSku=S1 `
+                --parameters appServiceInstanceCount=1 

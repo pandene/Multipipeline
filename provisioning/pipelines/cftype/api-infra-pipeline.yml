@@ -1,0 +1,46 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - OldStyle
+      # - main
+      # - develop
+  paths:
+    include:
+      - provisioning/    
+
+pr:
+  autoCancel: true
+  drafts: false
+  branches: 
+    include:
+      - CFWEB-3216
+      # - main
+      # - develop
+
+
+variables:
+  appName: 'eo-portal'
+  location: 'WestEurope'
+  locationUS: 'WestUS'
+  azureSubscription: 'Pipline2'
+pool:  
+  vmimage: 'windows-2019'
+
+
+
+stages:
+- ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}:
+  - template: ./api-deploy-stages.yaml
+    parameters:
+      resourceGroup: eo-qa
+      connectionName: $(azureSubscription)
+      env: qa
+      appName: $(appName)  
+- ${{ if eq(variables['Build.Reason'], 'Manual') }}:
+  - template: ./api-deploy-stages.yaml
+    parameters:
+      resourceGroup: eo-prod
+      connectionName: $(azureSubscription)
+      env: prod
+      appName: $(appName)
