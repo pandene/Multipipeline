@@ -20,7 +20,7 @@ pool:
 
 
 variables:
-  appName: 'cf-portal-api'
+  appName: 'eo-portal-api'
   azureSubscription: 'Pipline2'
 
 

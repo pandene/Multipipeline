@@ -46,6 +46,6 @@ stages:
                 --template-file $(Build.SourcesDirectory)/provisioning/infrastructure/main.bicep `
                 --parameters location=$(location) `
                 --parameters env=$('parameters.env') `
-                --parameters appName=$(parameters.appName) `
-                --parameters appServiceSku=$(sku) `
-                --parameters appServiceInstanceCount=$(appServiceCount)
+                --parameters appName=$('parameters.appName') `
+                --parameters appServiceSku=$('sk'u) `
+                --parameters appServiceInstanceCount=$('appServiceCount')

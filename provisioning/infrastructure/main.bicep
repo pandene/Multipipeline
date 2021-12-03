@@ -1,11 +1,13 @@
 @allowed([
-  'WestUS2'
+  'WestUS'
   'WestEurope'
 ])
 param location string
 
 @allowed([
   'qa'
+  'qanew'
+  'temp'
   'prod'
 ])
 param env string
@@ -24,14 +26,14 @@ param appServiceInstanceCount int
 param appServiceSku string
 
 
-@description('Name of the project, application. It will be used to construct resources names')
-param projectName string = 'cfportal' 
+@description('Name of the app, application. It will be used to construct resources names')
+param appName string = 'cf-portal' 
 
-@description('Name of the action group that should be triggered if any alerts are raised.')
-param alertActionGroupId string
+// @description('Name of the action group that should be triggered if any alerts are raised.')
+// param alertActionGroupId string
 
-@description('ObjectID of Azure Active Directory user group that should have full permissions to the Key Vault secrets.')
-param azureAdGroupId string = '6665421c-9f30-4128-bebe-a869916a9efb'
+// @description('ObjectID of Azure Active Directory user group that should have full permissions to the Key Vault secrets.')
+// param azureAdGroupId string = '6665421c-9f30-4128-bebe-a869916a9efb'
 
 @description('Unique deployment id')
 param deploymentUniqueId string = utcNow()
@@ -41,21 +43,10 @@ var tags = {
   ResourceOwner: teamName
 }
 
-// Abbreviation of location to use in resources names
-var locationShort = {
-  WestEurope: {
-    value: 'weu'
-  }
-  WestUS2: {
-    value: 'wus2'
-  }
-}
 
 
 
 
-// Base for the resources names
-var resourceNameBase = '${projectName}-${env}-${locationShort[location].value}'
 
 
 module appServiceModule './modules/app-service.bicep' = {
@@ -64,10 +55,7 @@ module appServiceModule './modules/app-service.bicep' = {
     location: location
     tags: tags
     env: env
-    resourceNameBase: resourceNameBase
-    // logAnalyticsWorkspaceId: logAnalyticsWorkspace.outputs.logAnalyticsWorkspaceId
-    // userManagedIdentity: identityModuleAppService.outputs.identity
-    // keyVaultUri: keyVaultModule.outputs.uri
+    resourceNameBase: appName
     appServicePlanSku: appServiceSku
     instanceCount: appServiceInstanceCount    
   }
