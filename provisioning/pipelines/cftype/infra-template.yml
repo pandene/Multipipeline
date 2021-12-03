@@ -48,6 +48,6 @@ stages:
                 --template-file $(Build.SourcesDirectory)/provisioning/infrastructure/main.bicep `
                 --parameters location=${{ parameters.location }} `
                 --parameters env=${{ parameters.env }}) `
-                --parameters appName=${{ parameters.appName }} `
+                --parameters appName='${{ parameters.appName }}' `
                 --parameters appServiceSku=${{ parameters.sku }} `
                 --parameters appServiceInstanceCount=${{ parameters.appServiceCount }}
